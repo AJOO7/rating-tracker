@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import * as XLSX from "xlsx";
 import { Line } from "react-chartjs-2";
@@ -28,6 +28,12 @@ export default function Home() {
   const [ratings, setRatings] = useState<
     { x: number; b: number; T: number; rating: number }[]
   >([]);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
@@ -107,6 +113,10 @@ export default function Home() {
       },
     },
   };
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div className="container mx-auto p-5">
